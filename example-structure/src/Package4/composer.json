@@ -1,12 +1,12 @@
 {
-    "name": "nusje2000/dependency-graph-example-project",
+    "name": "nusje2000/dependency-graph-internal-4",
     "require": {
         "foo/foo-package": "dev-master",
         "bar/bar-package": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Nusje2000\\Example\\": "src"
+            "Nusje2000\\Example\\Package3\\": "src"
         }
     }
 }

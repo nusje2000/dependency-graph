@@ -42,7 +42,7 @@ final class DependencyGraph
         return $graph;
     }
 
-    public function getGraph(): PackageCollection
+    public function getPackages(): PackageCollection
     {
         return $this->packages;
     }

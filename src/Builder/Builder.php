@@ -92,8 +92,6 @@ final class Builder implements GraphBuilderInterface
     private function registerPackage(string $name, array $definitions, PackageCollection $packageRegistry): void
     {
         $definition = $definitions[$name] ?? [];
-
-        $namespaces = $this->getNamespacesFromComposerDefinition($definition);
         $dependencyNames = $this->getDependenciesFromComposerDefinition($definition);
 
         $dependencies = new PackageCollection();
@@ -105,7 +103,11 @@ final class Builder implements GraphBuilderInterface
             $dependencies->append($packageRegistry->getPackageByName($dependencyName));
         }
 
-        $package = new Package($name, $namespaces, $dependencies);
-        $packageRegistry->append($package);
+        if (!$packageRegistry->hasPackageByName($name)) {
+            $namespaces = $this->getNamespacesFromComposerDefinition($definition);
+
+            $package = new Package($name, $namespaces, $dependencies);
+            $packageRegistry->append($package);
+        }
     }
 }

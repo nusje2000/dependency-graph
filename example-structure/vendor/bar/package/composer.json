@@ -1,9 +1,9 @@
 {
-    "name": "nusje2000/dependency-graph-foo-package",
+    "name": "bar/bar-package",
     "require": {},
     "autoload": {
         "psr-4": {
-            "Nusje2000\\Foo\\": "src"
+            "Bar\\Package\\": "src"
         }
     }
 }
