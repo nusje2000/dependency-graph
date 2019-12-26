@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Cache;
 
 use Nusje2000\DependencyGraph\DependencyGraph;
+use Nusje2000\DependencyGraph\Exception\CacheException;
 
 interface CacheInterface
 {
@@ -15,6 +16,8 @@ interface CacheInterface
 
     /**
      * Load the dependency graph for the given path
+     *
+     * @throws CacheException
      */
     public function load(string $rootPath): DependencyGraph;
 

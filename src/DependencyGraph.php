@@ -6,13 +6,14 @@ namespace Nusje2000\DependencyGraph;
 
 use Nusje2000\DependencyGraph\Builder\GraphBuilderInterface;
 use Nusje2000\DependencyGraph\Cache\CacheInterface;
+use Nusje2000\DependencyGraph\Cache\NullCache;
 
 final class DependencyGraph
 {
     /**
      * @var PackageCollection
      */
-    protected $dependencies;
+    protected $packages;
 
     /**
      * @var string
@@ -21,14 +22,14 @@ final class DependencyGraph
 
     public function __construct(string $rootPath, PackageCollection $packages)
     {
-        $this->dependencies = $packages;
+        $this->packages = $packages;
         $this->rootPath = $rootPath;
     }
 
     public static function build(string $rootPath, GraphBuilderInterface $builder, ?CacheInterface $cache = null): self
     {
         if (null === $cache) {
-            return $builder->build($rootPath);
+            $cache = new NullCache();
         }
 
         if ($cache->exists($rootPath)) {
@@ -43,7 +44,7 @@ final class DependencyGraph
 
     public function getGraph(): PackageCollection
     {
-        return $this->dependencies;
+        return $this->packages;
     }
 
     public function getRootPath(): string
