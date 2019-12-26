@@ -1,0 +1,31 @@
+{
+    "name": "nusje2000/dependency-graph",
+    "description": "A PHP Library for resolving, visualizing and validating composer dependencies within a repository. Works within a monolithic repository as well.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maarten Nusteling",
+            "email": "maarten.nusteling@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "aeviiq/collection": "^3.1",
+        "symfony/finder": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "phpstan/phpstan": "^0.12.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nusje2000\\DependencyGraph\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nusje2000\\DependencyGraph\\Tests\\": "tests"
+        }
+    }
+}

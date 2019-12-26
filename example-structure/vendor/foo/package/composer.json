@@ -1,0 +1,11 @@
+{
+    "name": "nusje2000/dependency-graph-bar-package",
+    "require": {
+        "nusje2000/dependency-graph-foo-package": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nusje2000\\Bar\\": "src"
+        }
+    }
+}
