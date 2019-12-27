@@ -6,6 +6,7 @@ namespace Nusje2000\DependencyGraph;
 
 use Aeviiq\Collection\ObjectCollection;
 use ArrayIterator;
+use Nusje2000\DependencyGraph\Exception\PackageException;
 
 /**
  * @method ArrayIterator|PackageInterface[] getIterator
@@ -38,11 +39,20 @@ final class PackageCollection extends ObjectCollection
         return $resolvedDependencies;
     }
 
+    /**
+     * @throws PackageException
+     */
     public function getPackageByName(string $name): PackageInterface
     {
-        return $this->filter(static function (PackageInterface $dependency) use ($name) {
+        $package = $this->filter(static function (PackageInterface $dependency) use ($name) {
             return $dependency->getName() === $name;
         })->first();
+
+        if (null === $package) {
+            throw PackageException::notFound($name);
+        }
+
+        return $package;
     }
 
     public function hasPackageByName(string $name): bool

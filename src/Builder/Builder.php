@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Builder;
 
 use Aeviiq\Collection\StringCollection;
+use Nusje2000\DependencyGraph\Composer\PackageDefinition;
 use Nusje2000\DependencyGraph\DependencyGraph;
 use Nusje2000\DependencyGraph\Exception\DefinitionException;
 use Nusje2000\DependencyGraph\Package;
@@ -23,15 +24,15 @@ final class Builder implements GraphBuilderInterface
         $definitions = $this->getComposerDefinitions($rootPath);
         $packages = new PackageCollection();
 
-        foreach (array_keys($definitions) as $packageName) {
-            $this->registerPackage($packageName, $definitions, $packages);
+        foreach ($definitions as $definition) {
+            $this->registerPackage($definition, $definitions, $packages);
         }
 
         return new DependencyGraph($rootPath, $packages);
     }
 
     /**
-     * @return array<string, array<string, mixed>>
+     * @return array<string, PackageDefinition>
      */
     private function getComposerDefinitions(string $rootPath): array
     {
@@ -42,15 +43,11 @@ final class Builder implements GraphBuilderInterface
         $definitions = [];
 
         foreach ($finder->getIterator() as $file) {
-            $definition = json_decode($file->getContents(), true);
-            $name = $definition['name'] ?? null;
-
-            if (null === $name || !is_string($name)) {
-                throw DefinitionException::missingNameDefinition($file->getPathname());
-            }
+            $definition = PackageDefinition::createFromFile($file);
+            $name = $definition->getName();
 
             if (isset($definitions[$name])) {
-                throw DefinitionException::duplicatePackageDefinition($name);
+                throw DefinitionException::duplicatePackageDefinition($definitions[$name], $definition);
             }
 
             $definitions[$name] = $definition;
@@ -59,54 +56,46 @@ final class Builder implements GraphBuilderInterface
         return $definitions;
     }
 
-    /**
-     * @param array<string, array<string, mixed>> $definition
-     */
-    private function getNamespacesFromComposerDefinition(array $definition): StringCollection
+    private function getNamespacesFromComposerDefinition(PackageDefinition $definition): StringCollection
     {
-        $namespaces = array_merge(
-            $definition['autoload']['psr-4'] ?? [],
-            $definition['autoload-dev']['psr-4'] ?? []
-        );
+        $namespaces = $definition->getNamespaces();
+        $namespaces->merge($definition->getDevNamespaces());
 
-        return new StringCollection(array_keys($namespaces));
+        return $namespaces;
+    }
+
+    private function getDependenciesFromComposerDefinition(PackageDefinition $definition): StringCollection
+    {
+        $dependencies = $definition->getDependencies(self::PACKAGE_NAME_REGEX);
+        $dependencies->merge($definition->getDevDependencies(self::PACKAGE_NAME_REGEX));
+
+        return $dependencies;
     }
 
     /**
-     * @param array<string, array<string, mixed>> $definition
+     * @param array<string, PackageDefinition> $definitions
      */
-    private function getDependenciesFromComposerDefinition(array $definition): StringCollection
+    private function registerPackage(PackageDefinition $definition, array $definitions, PackageCollection $packageRegistry): void
     {
-        $dependencies = array_merge(
-            $definition['require'] ?? [],
-            $definition['require-dev'] ?? []
-        );
-
-        $dependencies = array_filter(array_keys($dependencies), static function (string $name) {
-            return 1 === preg_match(self::PACKAGE_NAME_REGEX, $name);
-        });
-
-        return new StringCollection($dependencies);
-    }
-
-    private function registerPackage(string $name, array $definitions, PackageCollection $packageRegistry): void
-    {
-        $definition = $definitions[$name] ?? [];
         $dependencyNames = $this->getDependenciesFromComposerDefinition($definition);
 
         $dependencies = new PackageCollection();
         foreach ($dependencyNames as $dependencyName) {
             if (!$packageRegistry->hasPackageByName($dependencyName)) {
-                $this->registerPackage($dependencyName, $definitions, $packageRegistry);
+                if (!isset($definitions[$dependencyName])) {
+                    throw DefinitionException::unresolvableReference($dependencyName, $definition);
+                }
+
+                $this->registerPackage($definitions[$dependencyName], $definitions, $packageRegistry);
             }
 
             $dependencies->append($packageRegistry->getPackageByName($dependencyName));
         }
 
-        if (!$packageRegistry->hasPackageByName($name)) {
+        if (!$packageRegistry->hasPackageByName($definition->getName())) {
             $namespaces = $this->getNamespacesFromComposerDefinition($definition);
 
-            $package = new Package($name, $namespaces, $dependencies);
+            $package = new Package($definition->getName(), $namespaces, $dependencies);
             $packageRegistry->append($package);
         }
     }

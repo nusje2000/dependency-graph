@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FileCacheTest extends TestCase
 {
-    public function testSave(): FileCache
+    public function testSave(): void
     {
         $barPackage = new Package('bar/bar-package', new StringCollection(['SomeOtherNamespace']));
         $graph = new DependencyGraph($this->getRootPath(), new PackageCollection([
@@ -24,29 +24,26 @@ final class FileCacheTest extends TestCase
         ]));
 
         $cache = new FileCache();
-
         self::assertFalse($cache->exists($this->getRootPath()));
         $cache->save($graph);
         self::assertTrue($cache->exists($this->getRootPath()));
-
-        return $cache;
     }
 
     /**
      * @depends testSave
      */
-    public function testExists(FileCache $cache): FileCache
+    public function testExists(): void
     {
+        $cache = new FileCache();
         self::assertTrue($cache->exists($this->getRootPath()));
-
-        return $cache;
     }
 
     /**
      * @depends testExists
      */
-    public function testLoad(FileCache $cache): FileCache
+    public function testLoad(): void
     {
+        $cache = new FileCache();
         $loadedGraph = $cache->load($this->getRootPath());
 
         $packages = $loadedGraph->getPackages();
@@ -57,15 +54,14 @@ final class FileCacheTest extends TestCase
             $packages->getPackageByName('bar/bar-package'),
             $packages->getPackageByName('foo/foo-package')->getDirectDependencies()->getPackageByName('bar/bar-package')
         );
-
-        return $cache;
     }
 
     /**
      * @depends testLoad
      */
-    public function testRemove(FileCache $cache): void
+    public function testRemove(): void
     {
+        $cache = new FileCache();
         self::assertTrue($cache->exists($this->getRootPath()));
         $cache->remove($this->getRootPath());
         self::assertFalse($cache->exists($this->getRootPath()));
