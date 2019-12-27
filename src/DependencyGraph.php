@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
+use Nusje2000\DependencyGraph\Builder\Builder;
 use Nusje2000\DependencyGraph\Builder\GraphBuilderInterface;
 use Nusje2000\DependencyGraph\Cache\CacheInterface;
 use Nusje2000\DependencyGraph\Cache\NullCache;
@@ -26,10 +27,14 @@ final class DependencyGraph
         $this->rootPath = $rootPath;
     }
 
-    public static function build(string $rootPath, GraphBuilderInterface $builder, ?CacheInterface $cache = null): self
+    public static function build(string $rootPath, ?GraphBuilderInterface $builder = null, ?CacheInterface $cache = null): self
     {
         if (null === $cache) {
             $cache = new NullCache();
+        }
+
+        if (null === $builder) {
+            $builder = new Builder();
         }
 
         if ($cache->exists($rootPath)) {

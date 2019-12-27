@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Nusje2000\\Example\\Package3\\": "src"
+            "Nusje2000\\Example\\Package4\\": "src"
         }
     }
 }

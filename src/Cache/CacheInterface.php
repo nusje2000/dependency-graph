@@ -25,4 +25,9 @@ interface CacheInterface
      * Check if there is a cache item for the given path
      */
     public function exists(string $rootPath): bool;
+
+    /**
+     * Clears the cache if it is available
+     */
+    public function remove(string $rootPath): void;
 }

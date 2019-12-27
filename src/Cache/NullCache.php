@@ -31,4 +31,11 @@ final class NullCache implements CacheInterface
     {
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(string $rootPath): void
+    {
+    }
 }

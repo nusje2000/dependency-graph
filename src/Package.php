@@ -38,6 +38,9 @@ final class Package implements PackageInterface
         return $this->name;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getRegisteredNamespaces(): StringCollection
     {
         return $this->registeredNamespaces;

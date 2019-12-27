@@ -28,9 +28,7 @@ final class FileCache implements CacheInterface
         }
 
         $serialized = file_get_contents($this->getCacheFileLocation($rootPath));
-        $graph = unserialize($serialized, [
-            'allowed_classes' => [DependencyGraph::class],
-        ]);
+        $graph = unserialize($serialized);
 
         if (!$graph instanceof DependencyGraph) {
             throw CacheException::invalidCache($rootPath);
@@ -45,6 +43,16 @@ final class FileCache implements CacheInterface
     public function exists(string $rootPath): bool
     {
         return file_exists($this->getCacheFileLocation($rootPath));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(string $rootPath): void
+    {
+        if ($this->exists($rootPath)) {
+            unlink($this->getCacheFileLocation($rootPath));
+        }
     }
 
     private function getCacheFileLocation(string $rootPath): string

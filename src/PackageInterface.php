@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
+use Aeviiq\Collection\StringCollection;
+
 interface PackageInterface
 {
     /**
@@ -12,7 +14,12 @@ interface PackageInterface
     public function getName(): string;
 
     /**
-     * Returns the dependencies of this dependency (including dependencies of dependencies)
+     * Returns the namespaces registered by the package
+     */
+    public function getRegisteredNamespaces(): StringCollection;
+
+    /**
+     * Returns the dependencies of the package (including dependencies of dependencies)
      */
     public function getDependencies(): PackageCollection;
 
@@ -22,12 +29,12 @@ interface PackageInterface
     public function hasDependency(string $name): bool;
 
     /**
-     * Returns the dependencies of this dependency (only direct dependencies and not including depencencies of dependencies)
+     * Returns the dependencies of the package (only direct dependencies and not including depencencies of dependencies)
      */
     public function getDirectDependencies(): PackageCollection;
 
     /**
-     * Returns true when the currect dependency has a dependency with the given name
+     * Returns true when the package has a dependency with the given name
      * within the first level of dependencies (not iterating through depencencies of depencencies)
      */
     public function hasDirectDependency(string $name): bool;
