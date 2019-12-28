@@ -6,29 +6,29 @@ namespace Nusje2000\DependencyGraph\Builder;
 
 use Aeviiq\Collection\StringCollection;
 use Nusje2000\DependencyGraph\Composer\PackageDefinition;
+use Nusje2000\DependencyGraph\Dependency;
+use Nusje2000\DependencyGraph\DependencyCollection;
 use Nusje2000\DependencyGraph\DependencyGraph;
+use Nusje2000\DependencyGraph\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\Exception\DefinitionException;
 use Nusje2000\DependencyGraph\Package;
 use Nusje2000\DependencyGraph\PackageCollection;
+use Nusje2000\DependencyGraph\PackageInterface;
 use Symfony\Component\Finder\Finder;
 
 final class Builder implements GraphBuilderInterface
 {
-    private const PACKAGE_NAME_REGEX = '/[a-z0-9-_]+\/[a-z0-9-_]+/i';
-
     /**
      * @inheritDoc
      */
     public function build(string $rootPath): DependencyGraph
     {
         $definitions = $this->getComposerDefinitions($rootPath);
-        $packages = new PackageCollection();
+        $packages = array_map(function (PackageDefinition $definition) {
+            return $this->createPackage($definition);
+        }, $definitions);
 
-        foreach ($definitions as $definition) {
-            $this->registerPackage($definition, $definitions, $packages);
-        }
-
-        return new DependencyGraph($rootPath, $packages);
+        return new DependencyGraph($rootPath, new PackageCollection($packages));
     }
 
     /**
@@ -64,39 +64,22 @@ final class Builder implements GraphBuilderInterface
         return $namespaces;
     }
 
-    private function getDependenciesFromComposerDefinition(PackageDefinition $definition): StringCollection
+    private function getDependenciesFromComposerDefinition(PackageDefinition $definition): array
     {
-        $dependencies = $definition->getDependencies(self::PACKAGE_NAME_REGEX);
-        $dependencies->merge($definition->getDevDependencies(self::PACKAGE_NAME_REGEX));
-
-        return $dependencies;
+        return array_merge($definition->getDependencies(), $definition->getDevDependencies());
     }
 
-    /**
-     * @param array<string, PackageDefinition> $definitions
-     */
-    private function registerPackage(PackageDefinition $definition, array $definitions, PackageCollection $packageRegistry): void
+    private function createPackage(PackageDefinition $definition): PackageInterface
     {
         $dependencyNames = $this->getDependenciesFromComposerDefinition($definition);
+        $namespaces = $this->getNamespacesFromComposerDefinition($definition);
 
-        $dependencies = new PackageCollection();
-        foreach ($dependencyNames as $dependencyName) {
-            if (!$packageRegistry->hasPackageByName($dependencyName)) {
-                if (!isset($definitions[$dependencyName])) {
-                    throw DefinitionException::unresolvableReference($dependencyName, $definition);
-                }
-
-                $this->registerPackage($definitions[$dependencyName], $definitions, $packageRegistry);
-            }
-
-            $dependencies->append($packageRegistry->getPackageByName($dependencyName));
+        $dependencies = [];
+        foreach ($dependencyNames as $dependencyName => $versionConstraint) {
+            $type = DependencyTypeEnum::createFromDependencyName($dependencyName);
+            $dependencies[] = new Dependency($dependencyName, $versionConstraint, $type);
         }
 
-        if (!$packageRegistry->hasPackageByName($definition->getName())) {
-            $namespaces = $this->getNamespacesFromComposerDefinition($definition);
-
-            $package = new Package($definition->getName(), $namespaces, $dependencies);
-            $packageRegistry->append($package);
-        }
+        return new Package($definition->getName(), $namespaces, new DependencyCollection($dependencies));
     }
 }

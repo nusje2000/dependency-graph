@@ -40,6 +40,5 @@ $packages->hasPackageByName('foo/foo-pacakge');
 // getting a specific package
 $fooPackage = $packages->getPackageByName('foo/foo-pacakge');
 $fooPackage->getName(); // return the name of the package (foo/foo-pacakge)
-$fooPackage->getDirectDependencies(); // returns a list of packages this package depends on
-$fooPackage->getDependencies(); // returns all the dependencies (inluding dependencies of dependencies)
+$fooPackage->getDependencies(); // returns a list of dependencies
 ```

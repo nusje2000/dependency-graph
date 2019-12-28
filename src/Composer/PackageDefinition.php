@@ -52,30 +52,20 @@ final class PackageDefinition
         return $this->source;
     }
 
-    public function getDependencies(?string $regex = null): StringCollection
+    /**
+     * @return array<string, string>
+     */
+    public function getDependencies(): array
     {
-        $dependencies = new StringCollection(array_keys($this->definition['require'] ?? []));
-
-        if (null === $regex) {
-            return $dependencies;
-        }
-
-        return $dependencies->filter(static function (string $package) use ($regex) {
-            return 1 === preg_match($regex, $package);
-        });
+        return $this->definition['require'] ?? [];
     }
 
-    public function getDevDependencies(?string $regex = null): StringCollection
+    /**
+     * @return array<string, string>
+     */
+    public function getDevDependencies(): array
     {
-        $dependencies = new StringCollection(array_keys($this->definition['require-dev'] ?? []));
-
-        if (null === $regex) {
-            return $dependencies;
-        }
-
-        return $dependencies->filter(static function (string $package) use ($regex) {
-            return 1 === preg_match($regex, $package);
-        });
+        return $this->definition['require-dev'] ?? [];
     }
 
     public function getNamespaces(): StringCollection

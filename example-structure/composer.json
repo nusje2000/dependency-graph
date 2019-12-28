@@ -1,8 +1,9 @@
 {
     "name": "nusje2000/dependency-graph-example-project",
+    "version": "dev-master",
     "require": {
-        "foo/foo-package": "dev-master",
-        "bar/bar-package": "dev-master"
+        "bar/bar-package": "1.0.0",
+        "foo/foo-package": "2.0.0"
     },
     "autoload": {
         "psr-4": {

@@ -19,23 +19,12 @@ interface PackageInterface
     public function getRegisteredNamespaces(): StringCollection;
 
     /**
-     * Returns the dependencies of the package (including dependencies of dependencies)
+     * Returns all the dependencies of the package
      */
-    public function getDependencies(): PackageCollection;
+    public function getDependencies(): DependencyCollection;
 
     /**
-     * Returns true when there is a depencency with the given name anywhere in the dependency tree
+     * Checks if a dependency with the given name exists
      */
-    public function hasDependency(string $name): bool;
-
-    /**
-     * Returns the dependencies of the package (only direct dependencies and not including depencencies of dependencies)
-     */
-    public function getDirectDependencies(): PackageCollection;
-
-    /**
-     * Returns true when the package has a dependency with the given name
-     * within the first level of dependencies (not iterating through depencencies of depencencies)
-     */
-    public function hasDirectDependency(string $name): bool;
+    public function hasDependency(string $name);
 }

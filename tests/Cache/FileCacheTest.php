@@ -6,7 +6,10 @@ namespace Nusje2000\DependencyGraph\Tests\Cache;
 
 use Aeviiq\Collection\StringCollection;
 use Nusje2000\DependencyGraph\Cache\FileCache;
+use Nusje2000\DependencyGraph\Dependency;
+use Nusje2000\DependencyGraph\DependencyCollection;
 use Nusje2000\DependencyGraph\DependencyGraph;
+use Nusje2000\DependencyGraph\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\Package;
 use Nusje2000\DependencyGraph\PackageCollection;
 use PHPUnit\Framework\TestCase;
@@ -15,12 +18,11 @@ final class FileCacheTest extends TestCase
 {
     public function testSave(): void
     {
-        $barPackage = new Package('bar/bar-package', new StringCollection(['SomeOtherNamespace']));
         $graph = new DependencyGraph($this->getRootPath(), new PackageCollection([
-            new Package('foo/foo-package', new StringCollection(['SomeNamespace']), new PackageCollection([
-                $barPackage,
+            new Package('foo/foo-package', new StringCollection(['SomeNamespace']), new DependencyCollection([
+                new Dependency('bar/bar-package', 'some-version', new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
             ])),
-            $barPackage,
+            new Package('bar/bar-package', new StringCollection(['SomeOtherNamespace'])),
         ]));
 
         $cache = new FileCache();
@@ -49,11 +51,6 @@ final class FileCacheTest extends TestCase
         $packages = $loadedGraph->getPackages();
         self::assertTrue($packages->hasPackageByName('bar/bar-package'));
         self::assertTrue($packages->hasPackageByName('foo/foo-package'));
-
-        self::assertSame(
-            $packages->getPackageByName('bar/bar-package'),
-            $packages->getPackageByName('foo/foo-package')->getDirectDependencies()->getPackageByName('bar/bar-package')
-        );
     }
 
     /**

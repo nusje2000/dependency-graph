@@ -1,8 +1,8 @@
 {
     "name": "nusje2000/dependency-graph-internal-4",
     "require": {
-        "foo/foo-package": "dev-master",
-        "bar/bar-package": "dev-master"
+        "foo/foo-package": "^1.0",
+        "bar/bar-package": "^2.0"
     },
     "autoload": {
         "psr-4": {

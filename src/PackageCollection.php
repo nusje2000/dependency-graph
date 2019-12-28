@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
-use Aeviiq\Collection\ObjectCollection;
+use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
 use Nusje2000\DependencyGraph\Exception\PackageException;
 
@@ -13,32 +13,8 @@ use Nusje2000\DependencyGraph\Exception\PackageException;
  * @method PackageInterface|null first
  * @method PackageInterface|null last
  */
-final class PackageCollection extends ObjectCollection
+final class PackageCollection extends ImmutableObjectCollection
 {
-    /**
-     * Get all dependencies including dependencies of dependencies
-     */
-    public function getDepencenciesRecursive(): self
-    {
-        $resolvedDependencies = new static();
-
-        foreach ($this->getIterator() as $dependency) {
-            if (!$resolvedDependencies->contains($dependency)) {
-                $resolvedDependencies->append($dependency);
-            }
-
-            $resolvedDependencies->merge(
-                $dependency->getDependencies()->getDepencenciesRecursive()->filter(
-                    static function (PackageInterface $dependency) use ($resolvedDependencies) {
-                        return !$resolvedDependencies->contains($dependency);
-                    }
-                )
-            );
-        }
-
-        return $resolvedDependencies;
-    }
-
     /**
      * @throws PackageException
      */
