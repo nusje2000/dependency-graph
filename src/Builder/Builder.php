@@ -38,16 +38,22 @@ final class Builder implements GraphBuilderInterface
     {
         $finder = Finder::create();
         $finder->in($rootPath);
+        $finder->ignoreUnreadableDirs();
         $finder->name('composer.json');
+        $finder->files();
 
         $definitions = [];
 
         foreach ($finder->getIterator() as $file) {
-            $definition = PackageDefinition::createFromFile($file);
-            $name = $definition->getName();
+            try {
+                $definition = PackageDefinition::createFromFile($file);
+            } catch (DefinitionException $exception) {
+                continue;
+            }
 
+            $name = $definition->getName();
             if (isset($definitions[$name])) {
-                throw DefinitionException::duplicatePackageDefinition($definitions[$name], $definition);
+                continue;
             }
 
             $definitions[$name] = $definition;
