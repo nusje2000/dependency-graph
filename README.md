@@ -2,6 +2,12 @@
 This package can be used to create a list of used packages and their
 dependencies.
 
+### Installation
+Using composer:
+```
+composer require nusje2000/dependency-graph
+```
+
 ### Usage
 ```php
 use Nusje2000\DependencyGraph\Cache\FileCache;
