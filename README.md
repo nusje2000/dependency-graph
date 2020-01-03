@@ -28,7 +28,9 @@ null for default implementation).
 load the graph from if a cache exists.
 
 ### Visualizing dependencies
-You can visualize the dependency tree by using `vendor/bin/dependency-graph`. This console command can be used to search through the tree and look at information about certain dependencies. This command is still being worked on.
+You can visualize the dependency graph by using `vendor/bin/dependency-graph search`. This console command can be used to search through the graph and look at information about certain packages. This command is still being worked on.
+
+There is also a command for only visualizing a package (without the search dialog). i.e. you can use `vendor/bin/dependency-graph info nusje2000/dependency-graph` to see the dependencies of this package.
 
 ### Accessing the dependency graph
 ```php
