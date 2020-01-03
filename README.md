@@ -5,7 +5,7 @@ dependencies.
 ### Installation
 Using composer:
 ```
-composer require nusje2000/dependency-graph
+composer require nusje2000/dependency-graph --dev
 ```
 
 ### Usage
