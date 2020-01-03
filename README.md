@@ -5,7 +5,7 @@ dependencies.
 ### Installation
 Using composer:
 ```
-composer require nusje2000/dependency-graph
+composer require nusje2000/dependency-graph --dev
 ```
 
 ### Usage
@@ -26,6 +26,11 @@ The build method uses 3 parameters:
 null for default implementation).
 3. The cache class, this class will be used to cache the result or to
 load the graph from if a cache exists.
+
+### Visualizing dependencies
+You can visualize the dependency graph by using `vendor/bin/dependency-graph search`. This console command can be used to search through the graph and look at information about certain packages. This command is still being worked on.
+
+There is also a command for only visualizing a package (without the search dialog). i.e. you can use `vendor/bin/dependency-graph info nusje2000/dependency-graph` to see the dependencies of this package.
 
 ### Accessing the dependency graph
 ```php
