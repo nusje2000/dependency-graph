@@ -7,6 +7,11 @@ namespace Nusje2000\DependencyGraph;
 final class Package implements PackageInterface
 {
     /**
+     * @var bool
+     */
+    protected $isVendor;
+
+    /**
      * @var string
      */
     private $name;
@@ -21,11 +26,12 @@ final class Package implements PackageInterface
      */
     private $dependencies;
 
-    public function __construct(string $name, string $packageLocation, ?DependencyCollection $dependencies = null)
+    public function __construct(string $name, string $packageLocation, bool $isFromVendor, ?DependencyCollection $dependencies = null)
     {
         $this->name = $name;
         $this->dependencies = $dependencies ?? new DependencyCollection();
         $this->packageLocation = $packageLocation;
+        $this->isVendor = $isFromVendor;
     }
 
     /**
@@ -42,6 +48,14 @@ final class Package implements PackageInterface
     public function getPackageLocation(): string
     {
         return $this->packageLocation;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isFromVendor(): bool
+    {
+        return $this->isVendor;
     }
 
     /**

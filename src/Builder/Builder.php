@@ -23,8 +23,8 @@ final class Builder implements GraphBuilderInterface
     public function build(string $rootPath): DependencyGraph
     {
         $definitions = $this->getComposerDefinitions($rootPath);
-        $packages = array_map(function (PackageDefinition $definition) {
-            return $this->createPackage($definition);
+        $packages = array_map(function (PackageDefinition $definition) use ($rootPath) {
+            return $this->createPackage($definition, $rootPath);
         }, $definitions);
 
         return new DependencyGraph($rootPath, new PackageCollection($packages));
@@ -62,7 +62,7 @@ final class Builder implements GraphBuilderInterface
         return $definitions;
     }
 
-    private function createPackage(PackageDefinition $definition): PackageInterface
+    private function createPackage(PackageDefinition $definition, string $rootPath): PackageInterface
     {
         $dependencies = [];
         foreach ($definition->getDependencies() as $dependencyName => $versionConstraint) {
@@ -75,6 +75,8 @@ final class Builder implements GraphBuilderInterface
             $dependencies[] = new Dependency($dependencyName, $versionConstraint, true, $type);
         }
 
-        return new Package($definition->getName(), $definition->getPackageDirectory(), new DependencyCollection($dependencies));
+        $isVendor = 0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'vendor');
+
+        return new Package($definition->getName(), $definition->getPackageDirectory(), $isVendor, new DependencyCollection($dependencies));
     }
 }

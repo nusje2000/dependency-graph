@@ -14,7 +14,7 @@ final class DepencencyCollectionTest extends TestCase
     public function testHasPackageByName(): void
     {
         $collection = new PackageCollection([
-            new Package('some/package', '/path/to/package'),
+            new Package('some/package', '/path/to/package', false),
         ]);
 
         self::assertTrue($collection->hasPackageByName('some/package'));
@@ -23,7 +23,7 @@ final class DepencencyCollectionTest extends TestCase
 
     public function testGetPackageByName(): void
     {
-        $registeredPackage = new Package('some/package', '/path/to/package');
+        $registeredPackage = new Package('some/package', '/path/to/package', false);
         $collection = new PackageCollection([$registeredPackage]);
 
         self::assertSame($registeredPackage, $collection->getPackageByName('some/package'));

@@ -18,10 +18,10 @@ final class FileCacheTest extends TestCase
     public function testSave(): void
     {
         $graph = new DependencyGraph($this->getRootPath(), new PackageCollection([
-            new Package('foo/foo-package', '/path/to/package', new DependencyCollection([
+            new Package('foo/foo-package', '/path/to/package', false, new DependencyCollection([
                 new Dependency('bar/bar-package', 'some-version', false, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
             ])),
-            new Package('bar/bar-package', '/path/to/package'),
+            new Package('bar/bar-package', '/path/to/package', false),
         ]));
 
         $cache = new FileCache();

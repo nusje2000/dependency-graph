@@ -17,6 +17,11 @@ interface PackageInterface
     public function getPackageLocation(): string;
 
     /**
+     * Returns true when the package is located within the vendor directory
+     */
+    public function isFromVendor(): bool;
+
+    /**
      * Returns all the dependencies of the package
      */
     public function getDependencies(): DependencyCollection;
