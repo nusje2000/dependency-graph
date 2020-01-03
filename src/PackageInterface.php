@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
-use Aeviiq\Collection\StringCollection;
-
 interface PackageInterface
 {
     /**
@@ -14,9 +12,9 @@ interface PackageInterface
     public function getName(): string;
 
     /**
-     * Returns the namespaces registered by the package
+     * Returns the location where the package is defined
      */
-    public function getRegisteredNamespaces(): StringCollection;
+    public function getPackageLocation(): string;
 
     /**
      * Returns all the dependencies of the package

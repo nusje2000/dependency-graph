@@ -11,8 +11,10 @@ final class BuilderTest extends TestCase
 {
     public function testBuild(): void
     {
+        $exampleProjectDir = realpath(__DIR__ . '/../../example-structure');
+
         $builder = new Builder();
-        $graph = $builder->build(realpath(__DIR__ . '/../../example-structure'));
+        $graph = $builder->build($exampleProjectDir);
         $packages = $graph->getPackages();
 
         self::assertCount(7, $packages);
@@ -29,43 +31,38 @@ final class BuilderTest extends TestCase
         self::assertCount(1, $package1->getDependencies());
         self::assertTrue($package1->hasDependency('foo/foo-package'));
         self::assertFalse($package1->hasDependency('bar/bar-package'));
-
-        self::assertSame(['Nusje2000\\Example\\Package1\\'], $package1->getRegisteredNamespaces()->toArray());
+        self::assertSame(realpath($exampleProjectDir . '/src/Package1'), $package1->getPackageLocation());
 
         $package2 = $packages->getPackageByName('nusje2000/dependency-graph-internal-2');
         self::assertCount(1, $package2->getDependencies());
         self::assertTrue($package2->hasDependency('bar/bar-package'));
-
-        self::assertSame(['Nusje2000\\Example\\Package2\\'], $package2->getRegisteredNamespaces()->toArray());
+        self::assertSame(realpath($exampleProjectDir . '/src/Package2'), $package2->getPackageLocation());
 
         $package3 = $packages->getPackageByName('nusje2000/dependency-graph-internal-3');
         self::assertCount(0, $package3->getDependencies());
-
-        self::assertSame(['Nusje2000\\Example\\Package3\\'], $package3->getRegisteredNamespaces()->toArray());
+        self::assertSame(realpath($exampleProjectDir . '/src/Package3'), $package3->getPackageLocation());
 
         $package4 = $packages->getPackageByName('nusje2000/dependency-graph-internal-4');
         self::assertCount(2, $package4->getDependencies());
         self::assertTrue($package4->hasDependency('foo/foo-package'));
         self::assertTrue($package4->hasDependency('bar/bar-package'));
-
-        self::assertSame(['Nusje2000\\Example\\Package4\\'], $package4->getRegisteredNamespaces()->toArray());
+        self::assertTrue($package4->getDependencies()->getDependencyByName('bar/bar-package')->isDev());
+        self::assertFalse($package4->getDependencies()->getDependencyByName('foo/foo-package')->isDev());
+        self::assertSame(realpath($exampleProjectDir . '/src/Package4'), $package4->getPackageLocation());
 
         $projectPackage = $packages->getPackageByName('nusje2000/dependency-graph-example-project');
         self::assertCount(2, $projectPackage->getDependencies());
         self::assertTrue($projectPackage->hasDependency('foo/foo-package'));
         self::assertTrue($projectPackage->hasDependency('bar/bar-package'));
-
-        self::assertSame(['Nusje2000\\Example\\'], $projectPackage->getRegisteredNamespaces()->toArray());
+        self::assertSame($exampleProjectDir, $projectPackage->getPackageLocation());
 
         $fooPackage = $packages->getPackageByName('foo/foo-package');
         self::assertCount(1, $fooPackage->getDependencies());
         self::assertTrue($fooPackage->hasDependency('bar/bar-package'));
-
-        self::assertSame(['Foo\\Package\\'], $fooPackage->getRegisteredNamespaces()->toArray());
+        self::assertSame(realpath($exampleProjectDir . '/vendor/foo/package'), $fooPackage->getPackageLocation());
 
         $barPackage = $packages->getPackageByName('bar/bar-package');
         self::assertCount(0, $barPackage->getDependencies());
-
-        self::assertSame(['Bar\\Package\\'], $barPackage->getRegisteredNamespaces()->toArray());
+        self::assertSame(realpath($exampleProjectDir . '/vendor/bar/package'), $barPackage->getPackageLocation());
     }
 }

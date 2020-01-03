@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Builder;
 
-use Aeviiq\Collection\StringCollection;
 use Nusje2000\DependencyGraph\Composer\PackageDefinition;
 use Nusje2000\DependencyGraph\Dependency;
 use Nusje2000\DependencyGraph\DependencyCollection;
@@ -62,30 +61,19 @@ final class Builder implements GraphBuilderInterface
         return $definitions;
     }
 
-    private function getNamespacesFromComposerDefinition(PackageDefinition $definition): StringCollection
-    {
-        $namespaces = $definition->getNamespaces();
-        $namespaces->merge($definition->getDevNamespaces());
-
-        return $namespaces;
-    }
-
-    private function getDependenciesFromComposerDefinition(PackageDefinition $definition): array
-    {
-        return array_merge($definition->getDependencies(), $definition->getDevDependencies());
-    }
-
     private function createPackage(PackageDefinition $definition): PackageInterface
     {
-        $dependencyNames = $this->getDependenciesFromComposerDefinition($definition);
-        $namespaces = $this->getNamespacesFromComposerDefinition($definition);
-
         $dependencies = [];
-        foreach ($dependencyNames as $dependencyName => $versionConstraint) {
+        foreach ($definition->getDependencies() as $dependencyName => $versionConstraint) {
             $type = DependencyTypeEnum::createFromDependencyName($dependencyName);
-            $dependencies[] = new Dependency($dependencyName, $versionConstraint, $type);
+            $dependencies[] = new Dependency($dependencyName, $versionConstraint, false, $type);
         }
 
-        return new Package($definition->getName(), $namespaces, new DependencyCollection($dependencies));
+        foreach ($definition->getDevDependencies() as $dependencyName => $versionConstraint) {
+            $type = DependencyTypeEnum::createFromDependencyName($dependencyName);
+            $dependencies[] = new Dependency($dependencyName, $versionConstraint, true, $type);
+        }
+
+        return new Package($definition->getName(), $definition->getPackageDirectory(), new DependencyCollection($dependencies));
     }
 }

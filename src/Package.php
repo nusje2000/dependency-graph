@@ -4,30 +4,28 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
-use Aeviiq\Collection\StringCollection;
-
 final class Package implements PackageInterface
 {
     /**
      * @var string
      */
-    protected $name;
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $packageLocation;
 
     /**
      * @var DependencyCollection
      */
-    protected $dependencies;
+    private $dependencies;
 
-    /**
-     * @var StringCollection
-     */
-    protected $registeredNamespaces;
-
-    public function __construct(string $name, ?StringCollection $registeredNamespaces = null, ?DependencyCollection $dependencies = null)
+    public function __construct(string $name, string $packageLocation, ?DependencyCollection $dependencies = null)
     {
         $this->name = $name;
-        $this->registeredNamespaces = $registeredNamespaces ?? new StringCollection();
         $this->dependencies = $dependencies ?? new DependencyCollection();
+        $this->packageLocation = $packageLocation;
     }
 
     /**
@@ -41,9 +39,9 @@ final class Package implements PackageInterface
     /**
      * @inheritDoc
      */
-    public function getRegisteredNamespaces(): StringCollection
+    public function getPackageLocation(): string
     {
-        return $this->registeredNamespaces;
+        return $this->packageLocation;
     }
 
     /**

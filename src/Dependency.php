@@ -21,11 +21,17 @@ final class Dependency implements DependencyInterface
      */
     protected $type;
 
-    public function __construct(string $name, string $versionConstraint, DependencyTypeEnum $type)
+    /**
+     * @var bool
+     */
+    protected $isDev;
+
+    public function __construct(string $name, string $versionConstraint, bool $isDev, DependencyTypeEnum $type)
     {
         $this->name = $name;
         $this->versionConstraint = $versionConstraint;
         $this->type = $type;
+        $this->isDev = $isDev;
     }
 
     public function getName(): string
@@ -41,5 +47,10 @@ final class Dependency implements DependencyInterface
     public function getType(): DependencyTypeEnum
     {
         return $this->type;
+    }
+
+    public function isDev(): bool
+    {
+        return $this->isDev;
     }
 }

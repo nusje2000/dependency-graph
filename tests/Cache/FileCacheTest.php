@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Tests\Cache;
 
-use Aeviiq\Collection\StringCollection;
 use Nusje2000\DependencyGraph\Cache\FileCache;
 use Nusje2000\DependencyGraph\Dependency;
 use Nusje2000\DependencyGraph\DependencyCollection;
@@ -19,10 +18,10 @@ final class FileCacheTest extends TestCase
     public function testSave(): void
     {
         $graph = new DependencyGraph($this->getRootPath(), new PackageCollection([
-            new Package('foo/foo-package', new StringCollection(['SomeNamespace']), new DependencyCollection([
-                new Dependency('bar/bar-package', 'some-version', new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
+            new Package('foo/foo-package', '/path/to/package', new DependencyCollection([
+                new Dependency('bar/bar-package', 'some-version', false, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
             ])),
-            new Package('bar/bar-package', new StringCollection(['SomeOtherNamespace'])),
+            new Package('bar/bar-package', '/path/to/package'),
         ]));
 
         $cache = new FileCache();

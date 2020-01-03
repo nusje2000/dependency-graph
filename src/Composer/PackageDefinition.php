@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Composer;
 
-use Aeviiq\Collection\StringCollection;
 use Nusje2000\DependencyGraph\Exception\DefinitionException;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -33,7 +32,7 @@ final class PackageDefinition
     {
         $definition = json_decode($file->getContents(), true);
 
-        return new PackageDefinition($definition, $file->getPathname());
+        return new PackageDefinition($definition, $file->getPath());
     }
 
     public function getName(): string
@@ -41,13 +40,13 @@ final class PackageDefinition
         $name = $this->definition['name'] ?? null;
 
         if (!is_string($name)) {
-            throw DefinitionException::missingNameDefinition($this->source);
+            throw DefinitionException::missingNameDefinition($this->getPackageDirectory() . DIRECTORY_SEPARATOR . 'composer.json');
         }
 
         return $name;
     }
 
-    public function getSource(): string
+    public function getPackageDirectory(): string
     {
         return $this->source;
     }
@@ -66,19 +65,5 @@ final class PackageDefinition
     public function getDevDependencies(): array
     {
         return $this->definition['require-dev'] ?? [];
-    }
-
-    public function getNamespaces(): StringCollection
-    {
-        $namespaces = $this->definition['autoload']['psr-4'] ?? [];
-
-        return new StringCollection(array_keys($namespaces));
-    }
-
-    public function getDevNamespaces(): StringCollection
-    {
-        $namespaces = $this->definition['autoload-dev']['psr-4'] ?? [];
-
-        return new StringCollection(array_keys($namespaces));
     }
 }

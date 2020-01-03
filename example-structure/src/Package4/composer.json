@@ -1,7 +1,9 @@
 {
     "name": "nusje2000/dependency-graph-internal-4",
     "require": {
-        "foo/foo-package": "^1.0",
+        "foo/foo-package": "^1.0"
+    },
+    "require-dev": {
         "bar/bar-package": "^2.0"
     },
     "autoload": {
