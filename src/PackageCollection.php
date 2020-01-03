@@ -6,12 +6,14 @@ namespace Nusje2000\DependencyGraph;
 
 use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
+use Closure;
 use Nusje2000\DependencyGraph\Exception\PackageException;
 
 /**
  * @method ArrayIterator|PackageInterface[] getIterator
  * @method PackageInterface|null first
  * @method PackageInterface|null last
+ * @method PackageCollection filter(Closure $closure)
  */
 final class PackageCollection extends ImmutableObjectCollection
 {
@@ -29,6 +31,13 @@ final class PackageCollection extends ImmutableObjectCollection
         }
 
         return $package;
+    }
+
+    public function filterByDependency(string $dependencyName): PackageCollection
+    {
+        return $this->filter(static function (PackageInterface $package) use ($dependencyName): bool {
+            return $package->hasDependency($dependencyName);
+        });
     }
 
     public function hasPackageByName(string $name): bool

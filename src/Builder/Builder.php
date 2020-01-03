@@ -44,13 +44,14 @@ final class Builder implements GraphBuilderInterface
         $definitions = [];
 
         foreach ($finder->getIterator() as $file) {
+            $definition = PackageDefinition::createFromFile($file);
+
             try {
-                $definition = PackageDefinition::createFromFile($file);
+                $name = $definition->getName();
             } catch (DefinitionException $exception) {
                 continue;
             }
 
-            $name = $definition->getName();
             if (isset($definitions[$name])) {
                 continue;
             }
