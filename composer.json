@@ -10,6 +10,9 @@
         }
     ],
     "minimum-stability": "stable",
+    "bin": [
+        "bin/dependency-graph"
+    ],
     "require": {
         "php": ">=7.2 <7.4",
         "aeviiq/collection": "^3.1",
