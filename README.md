@@ -27,6 +27,9 @@ null for default implementation).
 3. The cache class, this class will be used to cache the result or to
 load the graph from if a cache exists.
 
+### Visualizing dependencies
+You can visualize the dependency tree by using `vendor/bin/dependency-graph`. This console command can be used to search through the tree and look at information about certain dependencies. This command is still being worked on.
+
 ### Accessing the dependency graph
 ```php
 use Nusje2000\DependencyGraph\DependencyGraph;
