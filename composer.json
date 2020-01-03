@@ -14,7 +14,7 @@
         "bin/dependency-graph"
     ],
     "require": {
-        "php": ">=7.2 <7.4",
+        "php": "~7.2",
         "aeviiq/collection": "^3.1",
         "symfony/finder": "^4.4|^5.0",
         "myclabs/php-enum": "^1.7",
