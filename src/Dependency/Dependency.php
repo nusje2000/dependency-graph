@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph;
+namespace Nusje2000\DependencyGraph\Dependency;
 
 final class Dependency implements DependencyInterface
 {

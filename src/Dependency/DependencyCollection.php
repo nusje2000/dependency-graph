@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph;
+namespace Nusje2000\DependencyGraph\Dependency;
 
 use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
@@ -10,9 +10,12 @@ use Closure;
 use Nusje2000\DependencyGraph\Exception\DependencyException;
 
 /**
- * @method ArrayIterator|DependencyInterface[] getIterator
- * @method DependencyInterface|null first
- * @method DependencyInterface|null last
+ * @phpstan-extends ImmutableObjectCollection<int|string, DependencyInterface>
+ * @psalm-extends   ImmutableObjectCollection<int|string, DependencyInterface>
+ *
+ * @method ArrayIterator|DependencyInterface[] getIterator()
+ * @method DependencyInterface|null first()
+ * @method DependencyInterface|null last()
  * @method DependencyCollection filter(Closure $closure)
  */
 final class DependencyCollection extends ImmutableObjectCollection

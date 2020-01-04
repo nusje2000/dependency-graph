@@ -28,6 +28,11 @@ final class FileCache implements CacheInterface
         }
 
         $serialized = file_get_contents($this->getCacheFileLocation($rootPath));
+
+        if (!is_string($serialized)) {
+            throw CacheException::notFound($rootPath);
+        }
+
         $graph = unserialize($serialized);
 
         if (!$graph instanceof DependencyGraph) {

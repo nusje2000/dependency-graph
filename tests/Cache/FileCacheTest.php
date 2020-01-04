@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Tests\Cache;
 
 use Nusje2000\DependencyGraph\Cache\FileCache;
-use Nusje2000\DependencyGraph\Dependency;
-use Nusje2000\DependencyGraph\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\Dependency;
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\DependencyGraph;
-use Nusje2000\DependencyGraph\DependencyTypeEnum;
-use Nusje2000\DependencyGraph\Package;
-use Nusje2000\DependencyGraph\PackageCollection;
+use Nusje2000\DependencyGraph\Package\Package;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
 use PHPUnit\Framework\TestCase;
 
 final class FileCacheTest extends TestCase

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Command;
 
+use LogicException;
 use Nusje2000\DependencyGraph\Cache\FileCache;
 use Nusje2000\DependencyGraph\Cache\NullCache;
+use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
 use Nusje2000\DependencyGraph\DependencyGraph;
-use Nusje2000\DependencyGraph\DependencyInterface;
-use Nusje2000\DependencyGraph\PackageInterface;
+use Nusje2000\DependencyGraph\Package\PackageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -37,6 +38,10 @@ abstract class AbstractDependencyGraphCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
         $projectRoot = getcwd();
+
+        if (!is_string($projectRoot)) {
+            throw new LogicException('Could not resolve the current working directory.');
+        }
 
         $cache = new FileCache();
         if ($input->getOption('no-cache')) {

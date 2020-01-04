@@ -9,6 +9,8 @@ use Nusje2000\DependencyGraph\Builder\GraphBuilderInterface;
 use Nusje2000\DependencyGraph\Cache\CacheInterface;
 use Nusje2000\DependencyGraph\Cache\NullCache;
 use Nusje2000\DependencyGraph\Exception\PackageException;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
+use Nusje2000\DependencyGraph\Package\PackageInterface;
 
 final class DependencyGraph
 {

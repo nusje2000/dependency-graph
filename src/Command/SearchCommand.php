@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Command;
 
-use Nusje2000\DependencyGraph\PackageCollection;
-use Nusje2000\DependencyGraph\PackageInterface;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
+use Nusje2000\DependencyGraph\Package\PackageInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -47,7 +47,7 @@ final class SearchCommand extends AbstractDependencyGraphCommand
         }
 
         $firstPackage = $suggestedPackages->first();
-        if (1 === $suggestedPackages->count()) {
+        if (1 === $suggestedPackages->count() && null !== $firstPackage) {
             return $firstPackage;
         }
 

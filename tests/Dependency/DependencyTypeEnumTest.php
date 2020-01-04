@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph\Tests;
+namespace Nusje2000\DependencyGraph\Tests\Dependency;
 
-use Nusje2000\DependencyGraph\DependencyTypeEnum;
+use Nusje2000\DependencyGraph\Dependency\DependencyTypeEnum;
 use PHPUnit\Framework\TestCase;
 
 final class DependencyTypeEnumTest extends TestCase

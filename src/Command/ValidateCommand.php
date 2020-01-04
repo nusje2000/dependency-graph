@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Command;
 
 use LogicException;
-use Nusje2000\DependencyGraph\DependencyCollection;
-use Nusje2000\DependencyGraph\DependencyInterface;
-use Nusje2000\DependencyGraph\PackageInterface;
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
+use Nusje2000\DependencyGraph\Package\PackageInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -82,7 +82,7 @@ final class ValidateCommand extends AbstractDependencyGraphCommand
     }
 
     /**
-     * @return array<string>
+     * @return array<int|string, string>
      */
     private function getDependencyNames(DependencyCollection $dependencies): array
     {
@@ -92,7 +92,7 @@ final class ValidateCommand extends AbstractDependencyGraphCommand
     }
 
     /**
-     * @return array<string>
+     * @return array<int|string, string>
      */
     private function getVersionConstraints(DependencyCollection $dependencies, string $dependencyName): array
     {
@@ -132,12 +132,16 @@ final class ValidateCommand extends AbstractDependencyGraphCommand
     {
         $rootPackage = $this->graph->getRootPackage();
         $composerFile = $rootPackage->getPackageLocation() . DIRECTORY_SEPARATOR . 'composer.json';
-
         if (!file_exists($composerFile)) {
             throw new LogicException(sprintf('File "%s" does not exist.', $composerFile));
         }
 
-        $composerDefinition = json_decode(file_get_contents($composerFile), true);
+        $composerFileContents = file_get_contents($composerFile);
+        if (!is_string($composerFileContents)) {
+            throw new LogicException(sprintf('Could not load file contents from file "%s"', $composerFile));
+        }
+
+        $composerDefinition = json_decode($composerFileContents, true);
 
         if ($isDev) {
             if (isset($composerDefinition['require'][$dependencyName])) {

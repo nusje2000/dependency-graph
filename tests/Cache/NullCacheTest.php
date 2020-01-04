@@ -7,7 +7,7 @@ namespace Nusje2000\DependencyGraph\Tests\Cache;
 use Nusje2000\DependencyGraph\Cache\NullCache;
 use Nusje2000\DependencyGraph\DependencyGraph;
 use Nusje2000\DependencyGraph\Exception\CacheException;
-use Nusje2000\DependencyGraph\PackageCollection;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
 use PHPUnit\Framework\TestCase;
 
 final class NullCacheTest extends TestCase

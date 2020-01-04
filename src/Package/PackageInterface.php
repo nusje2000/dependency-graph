@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph;
+namespace Nusje2000\DependencyGraph\Package;
+
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
 
 interface PackageInterface
 {
@@ -34,5 +37,5 @@ interface PackageInterface
     /**
      * Checks if a dependency with the given name exists
      */
-    public function hasDependency(string $name);
+    public function hasDependency(string $name): bool;
 }

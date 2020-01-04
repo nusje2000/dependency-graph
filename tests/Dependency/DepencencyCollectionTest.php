@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph\Tests;
+namespace Nusje2000\DependencyGraph\Tests\Dependency;
 
 use Nusje2000\DependencyGraph\Exception\PackageException;
-use Nusje2000\DependencyGraph\Package;
-use Nusje2000\DependencyGraph\PackageCollection;
+use Nusje2000\DependencyGraph\Package\Package;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
 use PHPUnit\Framework\TestCase;
 
 final class DepencencyCollectionTest extends TestCase

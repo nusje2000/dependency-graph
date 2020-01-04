@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Builder;
 
 use Nusje2000\DependencyGraph\Composer\PackageDefinition;
-use Nusje2000\DependencyGraph\Dependency;
-use Nusje2000\DependencyGraph\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\Dependency;
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\DependencyGraph;
-use Nusje2000\DependencyGraph\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\Exception\DefinitionException;
-use Nusje2000\DependencyGraph\Package;
-use Nusje2000\DependencyGraph\PackageCollection;
-use Nusje2000\DependencyGraph\PackageInterface;
+use Nusje2000\DependencyGraph\Package\Package;
+use Nusje2000\DependencyGraph\Package\PackageCollection;
+use Nusje2000\DependencyGraph\Package\PackageInterface;
 use Symfony\Component\Finder\Finder;
 
 final class Builder implements GraphBuilderInterface

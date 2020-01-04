@@ -2,17 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph;
+namespace Nusje2000\DependencyGraph\Package;
 
 use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
 use Closure;
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
 use Nusje2000\DependencyGraph\Exception\PackageException;
 
 /**
- * @method ArrayIterator|PackageInterface[] getIterator
- * @method PackageInterface|null first
- * @method PackageInterface|null last
+ * @phpstan-extends ImmutableObjectCollection<int|string, PackageInterface>
+ * @psalm-extends   ImmutableObjectCollection<int|string, PackageInterface>
+ *
+ * @method ArrayIterator|PackageInterface[] getIterator()
+ * @method PackageInterface|null first()
+ * @method PackageInterface|null last()
  * @method PackageCollection filter(Closure $closure)
  */
 final class PackageCollection extends ImmutableObjectCollection

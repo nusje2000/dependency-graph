@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nusje2000\DependencyGraph;
+namespace Nusje2000\DependencyGraph\Package;
+
+use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
+use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
 
 final class Package implements PackageInterface
 {

@@ -8,7 +8,7 @@ use LogicException;
 
 final class DependencyException extends LogicException implements ExceptionInterface
 {
-    public static function unresolvableDependencyType(string $dependency)
+    public static function unresolvableDependencyType(string $dependency): self
     {
         return new static(sprintf('Could not resolve type for dependency named "%s".', $dependency));
     }
