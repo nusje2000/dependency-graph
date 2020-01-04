@@ -1,8 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Nusje2000\DependencyGraph\Command\InfoCommand;
-use Nusje2000\DependencyGraph\Command\SearchCommand;
+use Nusje2000\DependencyGraph\Command;
 use Symfony\Component\Console\Application;
 
 error_reporting(E_ALL);
@@ -17,6 +16,7 @@ if (is_file($autoloader)) {
 }
 
 $application = new Application('Dependency graph');
-$application->add(new SearchCommand());
-$application->add(new InfoCommand());
+$application->add(new Command\SearchCommand());
+$application->add(new Command\InfoCommand());
+$application->add(new Command\ValidateCommand());
 $application->run();

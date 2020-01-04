@@ -27,6 +27,11 @@ interface PackageInterface
     public function getDependencies(): DependencyCollection;
 
     /**
+     * Returns the dependency with the given name
+     */
+    public function getDependency(string $name): DependencyInterface;
+
+    /**
      * Checks if a dependency with the given name exists
      */
     public function hasDependency(string $name);

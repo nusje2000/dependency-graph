@@ -8,6 +8,7 @@ use Nusje2000\DependencyGraph\Builder\Builder;
 use Nusje2000\DependencyGraph\Builder\GraphBuilderInterface;
 use Nusje2000\DependencyGraph\Cache\CacheInterface;
 use Nusje2000\DependencyGraph\Cache\NullCache;
+use Nusje2000\DependencyGraph\Exception\PackageException;
 
 final class DependencyGraph
 {
@@ -50,6 +51,29 @@ final class DependencyGraph
     public function getPackages(): PackageCollection
     {
         return $this->packages;
+    }
+
+    public function getRootPackage(): PackageInterface
+    {
+        $rootPackage = $this->packages->filter(function (PackageInterface $package) {
+            return $package->getPackageLocation() === $this->getRootPath();
+        })->first();
+
+        if (null === $rootPackage) {
+            throw new PackageException(sprintf('Could not find root package (searched in "%s").', $this->getRootPath()));
+        }
+
+        return $rootPackage;
+    }
+
+    public function getPackage(string $packageName): PackageInterface
+    {
+        return $this->packages->getPackageByName($packageName);
+    }
+
+    public function hasPackage(string $packageName): bool
+    {
+        return $this->packages->hasPackageByName($packageName);
     }
 
     public function getRootPath(): string

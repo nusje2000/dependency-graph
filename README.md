@@ -46,10 +46,10 @@ $graph->getRootPath();
 $packages = $graph->getPackages();
 
 // checking if a package exists
-$packages->hasPackageByName('foo/foo-pacakge');
+$graph->hasPackage('foo/foo-pacakge');
 
 // getting a specific package
-$fooPackage = $packages->getPackageByName('foo/foo-pacakge');
+$fooPackage = $graph->getPackage('foo/foo-pacakge');
 $fooPackage->getName(); // return the name of the package (foo/foo-pacakge)
 $fooPackage->getDependencies(); // returns a list of dependencies
 $fooPackage->getPackageLocation(); // returns the location of the package

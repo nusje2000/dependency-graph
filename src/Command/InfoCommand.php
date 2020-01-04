@@ -22,16 +22,15 @@ final class InfoCommand extends AbstractDependencyGraphCommand
 
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $packages = $this->graph->getPackages();
         $packageName = $input->getArgument('package');
 
-        if (!$packages->hasPackageByName($packageName)) {
+        if (!$this->graph->hasPackage($packageName)) {
             $this->io->error(sprintf('Could not find package with name "%s".', $packageName));
 
             return 1;
         }
 
-        $this->displayPackageInformation($packages->getPackageByName($packageName));
+        $this->displayPackageInformation($this->graph->getPackage($packageName));
 
         return 0;
     }

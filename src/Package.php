@@ -69,8 +69,16 @@ final class Package implements PackageInterface
     /**
      * @inheritDoc
      */
+    public function getDependency(string $name): DependencyInterface
+    {
+        return $this->dependencies->getDependencyByName($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function hasDependency(string $name): bool
     {
-        return $this->dependencies->hasDependency($name);
+        return $this->dependencies->hasDependencyByName($name);
     }
 }

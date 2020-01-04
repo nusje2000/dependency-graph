@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nusje2000\DependencyGraph\Command;
 
 use Nusje2000\DependencyGraph\Cache\FileCache;
+use Nusje2000\DependencyGraph\Cache\NullCache;
 use Nusje2000\DependencyGraph\DependencyGraph;
 use Nusje2000\DependencyGraph\DependencyInterface;
 use Nusje2000\DependencyGraph\PackageInterface;
@@ -29,6 +30,7 @@ abstract class AbstractDependencyGraphCommand extends Command
     protected function configure(): void
     {
         $this->addOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear the cache before building the graph.');
+        $this->addOption('no-cache', null, InputOption::VALUE_NONE, 'Run without using a cache.');
     }
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
@@ -37,7 +39,12 @@ abstract class AbstractDependencyGraphCommand extends Command
         $projectRoot = getcwd();
 
         $cache = new FileCache();
+        if ($input->getOption('no-cache')) {
+            $cache = new NullCache();
+        }
+
         if ($input->getOption('clear-cache')) {
+            $this->io->writeln('Clearing cache.');
             $cache->remove($projectRoot);
         }
 

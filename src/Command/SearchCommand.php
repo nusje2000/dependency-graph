@@ -37,12 +37,8 @@ final class SearchCommand extends AbstractDependencyGraphCommand
 
     private function searchForPackage(): PackageInterface
     {
-        /** @var string|null $searchedPackage */
-        $searchedPackage = null;
-        $packages = $this->graph->getPackages();
-
         $searchedPackage = $this->io->ask('What package do you want to lookup ? (TIP: you could also enter a part of a package name)');
-        $suggestedPackages = $this->suggestPackages($packages, (string)$searchedPackage);
+        $suggestedPackages = $this->suggestPackages((string)$searchedPackage);
 
         if ($suggestedPackages->isEmpty()) {
             $this->io->error(sprintf('Could not find any pacakge with name "%s".', $searchedPackage));
@@ -65,19 +61,19 @@ final class SearchCommand extends AbstractDependencyGraphCommand
         $choice = $this->io->choice('What package would you like to view ?', $options);
 
         if (null !== $choice && 'Search again' !== $choice) {
-            return $packages->getPackageByName($choice);
+            return $this->graph->getPackage($choice);
         }
 
         return $this->searchForPackage();
     }
 
-    private function suggestPackages(PackageCollection $packgages, string $search): PackageCollection
+    private function suggestPackages(string $search): PackageCollection
     {
         if (empty($search)) {
-            return $packgages;
+            return $this->graph->getPackages();
         }
 
-        return $packgages->filter(static function (PackageInterface $package) use ($search): bool {
+        return $this->graph->getPackages()->filter(static function (PackageInterface $package) use ($search): bool {
             return false !== stripos($package->getName(), $search);
         });
     }

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph;
 
-use Aeviiq\Collection\ObjectCollection;
+use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
+use Closure;
 use Nusje2000\DependencyGraph\Exception\DependencyException;
 
 /**
  * @method ArrayIterator|DependencyInterface[] getIterator
  * @method DependencyInterface|null first
  * @method DependencyInterface|null last
+ * @method DependencyCollection filter(Closure $closure)
  */
-final class DependencyCollection extends ObjectCollection
+final class DependencyCollection extends ImmutableObjectCollection
 {
     public function filterExtensions(): self
     {
@@ -32,11 +34,16 @@ final class DependencyCollection extends ObjectCollection
         });
     }
 
+    public function filterByName(string $name): self
+    {
+        return $this->filter(static function (DependencyInterface $dependency) use ($name) {
+            return $dependency->getName() === $name;
+        });
+    }
+
     public function getDependencyByName(string $name): DependencyInterface
     {
-        $dependency = $this->filter(static function (DependencyInterface $dependency) use ($name) {
-            return $dependency->getName() === $name;
-        })->first();
+        $dependency = $this->filterByName($name)->first();
 
         if (null === $dependency) {
             throw new DependencyException(sprintf('Could not find dependency %s.', $name));
@@ -45,11 +52,9 @@ final class DependencyCollection extends ObjectCollection
         return $dependency;
     }
 
-    public function hasDependency(string $name): bool
+    public function hasDependencyByName(string $name): bool
     {
-        return !$this->filter(static function (DependencyInterface $dependency) use ($name) {
-            return $dependency->getName() === $name;
-        })->isEmpty();
+        return !$this->filterByName($name)->isEmpty();
     }
 
     protected function allowedInstance(): string
