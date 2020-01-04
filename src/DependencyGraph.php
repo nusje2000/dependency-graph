@@ -68,6 +68,15 @@ final class DependencyGraph
         return $rootPackage;
     }
 
+    public function getSubPackages(): PackageCollection
+    {
+        $rootPackage = $this->getRootPackage();
+
+        return $this->packages->filter(static function (PackageInterface $package) use ($rootPackage): bool {
+            return !$package->isFromVendor() && $package !== $rootPackage;
+        });
+    }
+
     public function getPackage(string $packageName): PackageInterface
     {
         return $this->packages->getPackageByName($packageName);

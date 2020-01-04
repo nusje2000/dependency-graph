@@ -80,12 +80,12 @@ abstract class AbstractDependencyGraphCommand extends Command
             $this->io->newLine();
             $this->io->section('Packages depending on this package');
             $this->io->table(
-                ['Name', 'Required version'],
+                ['Name', 'Required version', 'Is dev'],
                 $this->graph->getPackages()->filterByDependency($package->getName())->map(
                     static function (PackageInterface $dependingPackage) use ($package): array {
                         $dependencyDefinition = $dependingPackage->getDependencies()->getDependencyByName($package->getName());
 
-                        return [$dependingPackage->getName(), $dependencyDefinition->getVersionConstraint()];
+                        return [$dependingPackage->getName(), $dependencyDefinition->getVersionConstraint(), $dependencyDefinition->isDev() ? 'Yes' : 'No'];
                     }
                 )
             );

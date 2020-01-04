@@ -7,7 +7,6 @@ namespace Nusje2000\DependencyGraph\Package;
 use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
 use Closure;
-use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
 use Nusje2000\DependencyGraph\Exception\PackageException;
 
 /**
@@ -21,15 +20,6 @@ use Nusje2000\DependencyGraph\Exception\PackageException;
  */
 final class PackageCollection extends ImmutableObjectCollection
 {
-    public function getDependencies(): DependencyCollection
-    {
-        return new DependencyCollection(
-            array_merge(...array_values($this->map(static function (PackageInterface $package): array {
-                return array_values($package->getDependencies()->toArray());
-            })))
-        );
-    }
-
     /**
      * @throws PackageException
      */
