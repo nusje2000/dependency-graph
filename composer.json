@@ -13,6 +13,14 @@
     "bin": [
         "bin/dependency-graph"
     ],
+    "scripts": {
+        "phpstan": [
+            "vendor/bin/phpstan analyze ./src ./tests --level max"
+        ],
+        "phpunit": [
+            "vendor/bin/phpunit ./tests"
+        ]
+    },
     "require": {
         "php": "~7.2",
         "aeviiq/collection": "^3.1",

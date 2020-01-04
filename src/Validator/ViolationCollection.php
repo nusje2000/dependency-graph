@@ -9,8 +9,8 @@ use Aeviiq\Collection\StringCollection;
 use ArrayIterator;
 
 /**
- * @phpstan-extends ImmutableObjectCollection<int|string, PackageInterface>
- * @psalm-extends   ImmutableObjectCollection<int|string, PackageInterface>
+ * @phpstan-extends ObjectCollection<int|string, ViolationInterface>
+ * @psalm-extends   ObjectCollection<int|string, ViolationInterface>
  *
  * @method ArrayIterator|ViolationInterface[] getIterator()
  * @method ViolationInterface|null first()
@@ -20,9 +20,12 @@ final class ViolationCollection extends ObjectCollection
 {
     public function getMessages(): StringCollection
     {
-        return new StringCollection($this->map(static function (ViolationInterface $violation) {
+        /** @var array<string> $messages */
+        $messages = $this->map(static function (ViolationInterface $violation) {
             return $violation->getMessage();
-        }));
+        });
+
+        return new StringCollection($messages);
     }
 
     protected function allowedInstance(): string

@@ -12,7 +12,7 @@ final class DependencyGraphTest extends TestCase
 {
     public function testBuild(): void
     {
-        $rootPath = realpath(__DIR__ . '/../example-structure');
+        $rootPath = (string)realpath(__DIR__ . '/../example-structure');
 
         $cache = new FileCache();
         self::assertFalse($cache->exists($rootPath));

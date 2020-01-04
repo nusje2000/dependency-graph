@@ -8,8 +8,8 @@ use Aeviiq\Collection\ObjectCollection;
 use ArrayIterator;
 
 /**
- * @phpstan-extends ImmutableObjectCollection<int|string, PackageInterface>
- * @psalm-extends   ImmutableObjectCollection<int|string, PackageInterface>
+ * @phpstan-extends ObjectCollection<int|string, RuleInterface>
+ * @psalm-extends   ObjectCollection<int|string, RuleInterface>
  *
  * @method ArrayIterator|RuleInterface[] getIterator()
  * @method RuleInterface|null first()

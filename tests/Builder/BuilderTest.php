@@ -11,7 +11,7 @@ final class BuilderTest extends TestCase
 {
     public function testBuild(): void
     {
-        $exampleProjectDir = realpath(__DIR__ . '/../../example-structure');
+        $exampleProjectDir = (string)realpath(__DIR__ . '/../../example-structure');
 
         $builder = new Builder();
         $graph = $builder->build($exampleProjectDir);

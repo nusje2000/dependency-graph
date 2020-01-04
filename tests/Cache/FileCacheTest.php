@@ -65,6 +65,6 @@ final class FileCacheTest extends TestCase
 
     private function getRootPath(): string
     {
-        return realpath(__DIR__ . '/../../example-structure');
+        return (string)realpath(__DIR__ . '/../../example-structure');
     }
 }
