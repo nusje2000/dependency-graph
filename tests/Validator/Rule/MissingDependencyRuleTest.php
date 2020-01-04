@@ -22,7 +22,7 @@ final class MissingDependencyRuleTest extends TestCase
                 new Dependency('foo/foo-package', '1.0', false, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
             ])),
             new Package('foo/package-1', '/path/to/root/package-1', false, new DependencyCollection([
-                new Dependency('foo/bar-package', '~1.0', false, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
+                new Dependency('foo/bar-package', '~1.0', true, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
             ])),
             new Package('foo/package-2', '/path/to/root/package-2', false, new DependencyCollection([
                 new Dependency('bar/bar-package', '^1.0', false, new DependencyTypeEnum(DependencyTypeEnum::PACKAGE)),
@@ -37,9 +37,9 @@ final class MissingDependencyRuleTest extends TestCase
         $violations = $rule->execute($graph);
 
         self::assertSame([
-            'Package "foo/package-1" requires a dependency on "foo/bar-package" (version: ~1.0)',
-            'Package "foo/package-2" requires a dependency on "bar/bar-package" (version: ^1.0)',
-            'Package "foo/package-3" requires a dependency on "bar/bar-package" (version: 1.0)',
+            'Package "foo/package-1" requires a dependency on "foo/bar-package" (version: ~1.0, dev-only: yes)',
+            'Package "foo/package-2" requires a dependency on "bar/bar-package" (version: ^1.0, dev-only: no)',
+            'Package "foo/package-3" requires a dependency on "bar/bar-package" (version: 1.0, dev-only: no)',
         ], $violations->getMessages()->toArray());
     }
 }

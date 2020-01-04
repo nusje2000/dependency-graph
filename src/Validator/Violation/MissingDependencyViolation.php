@@ -29,10 +29,11 @@ final class MissingDependencyViolation implements ViolationInterface
     public function getMessage(): string
     {
         return sprintf(
-            'Package "%s" requires a dependency on "%s" (version: %s)',
+            'Package "%s" requires a dependency on "%s" (version: %s, dev-only: %s)',
             $this->package->getName(),
             $this->dependency->getName(),
-            $this->dependency->getVersionConstraint()
+            $this->dependency->getVersionConstraint(),
+            $this->dependency->isDev() ? 'yes' : 'no'
         );
     }
 }
