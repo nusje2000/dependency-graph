@@ -36,12 +36,11 @@ There is also a command for only visualizing a package (without the
 search dialog). i.e. you can use `vendor/bin/dependency-graph info nusje2000/dependency-graph`
 to see the dependencies of this package.
 
-### Validating the dependency graph
-You can use `vendor/bin/dependency-graph validate` to validate the
-dependency graph. This command is meant to be used withing the context
-of a monolithic repository. The validator compares versions of the root
-composer definition with those of the sub packages and checks if all
-dependencies are present in the root configuration.
+### Validating the dependency graph in monolithic repositories
+This package can be used to fetch all the packages defined in monolithic
+repositories. This has been implemented into a command in the
+`nusje2000/composer-monolith` package, which can be used to validate
+internal and external dependencies in a monolithic repository.
 
 ### Accessing the dependency graph
 ```php
