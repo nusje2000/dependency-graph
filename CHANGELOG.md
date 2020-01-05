@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.0
+ - Moved validate command and validator to https://github.com/nusje2000/composer-monolith
+
 ## 1.0.2
  - added `PackageDefinition::createFromDirectory` function
  - added `PackageDefinition::hasDependency` function
