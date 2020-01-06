@@ -116,7 +116,7 @@ final class PackageDefinition
         return isset($this->definition['require-dev'][$dependency]);
     }
 
-    public function addDevDependency(string $dependency, string $versionConstraint): void
+    public function setDevDependency(string $dependency, string $versionConstraint): void
     {
         $this->definition['require-dev'][$dependency] = $versionConstraint;
     }

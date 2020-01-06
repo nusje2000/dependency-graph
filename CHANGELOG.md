@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.0
+ - Changed PackageDefinition::addDevDependency to PackageDefinition::setDevDependency
+
 ## 2.0.0
  - Moved validate command and validator to https://github.com/nusje2000/composer-monolith
 
