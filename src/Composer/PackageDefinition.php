@@ -37,7 +37,7 @@ final class PackageDefinition
 
     public static function createFromDirectory(string $path): self
     {
-        $pathToComposerFile = $path . DIRECTORY_SEPARATOR . '/composer.json';
+        $pathToComposerFile = $path . DIRECTORY_SEPARATOR . 'composer.json';
         $contents = file_get_contents($pathToComposerFile);
 
         if (!is_string($contents)) {
