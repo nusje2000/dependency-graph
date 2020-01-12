@@ -149,6 +149,18 @@ final class PackageDefinition
        return $this->definition['replace'] ?? [];
     }
 
+    public function setReplace(string $name, string $version): void
+    {
+        $this->definition['replace'][$name] = $version;
+    }
+
+    public function removeReplace(string $name): void
+    {
+        if (isset($this->definition['replace'][$name])) {
+            unset($this->definition['replace'][$name]);
+        }
+    }
+
     public function save(): void
     {
         $encoded = json_encode($this->definition, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
