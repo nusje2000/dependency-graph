@@ -143,7 +143,7 @@ final class PackageDefinition
 
     public function save(): void
     {
-        $encoded = json_encode($this->definition, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $encoded = json_encode($this->definition, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
         if (!is_string($encoded)) {
             throw new DefinitionException(sprintf('Could not encode definition due to "%s".', json_last_error_msg()));
