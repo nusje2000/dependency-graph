@@ -141,6 +141,14 @@ final class PackageDefinition
         return $constraint;
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getReplaces(): array
+    {
+       return $this->definition['replace'] ?? [];
+    }
+
     public function save(): void
     {
         $encoded = json_encode($this->definition, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
