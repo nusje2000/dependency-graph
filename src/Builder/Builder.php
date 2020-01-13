@@ -75,7 +75,9 @@ final class Builder implements GraphBuilderInterface
             $dependencies[] = new Dependency($dependencyName, $versionConstraint, true, $type);
         }
 
-        $isFromVendor = 0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'vendor');
+        $isFromVendor = 
+            0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'vendor') ||
+            0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'node_modules');
 
         return new Package($definition->getName(), $definition->getPackageDirectory(), $isFromVendor, new DependencyCollection($dependencies));
     }
