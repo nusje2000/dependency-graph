@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Package;
 
+use Nusje2000\DependencyGraph\Author\AuthorCollection;
 use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
 use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
+use Nusje2000\DependencyGraph\Replace\ReplaceCollection;
 
 final class Package implements PackageInterface
 {
@@ -29,12 +31,30 @@ final class Package implements PackageInterface
      */
     private $dependencies;
 
-    public function __construct(string $name, string $packageLocation, bool $isFromVendor, ?DependencyCollection $dependencies = null)
-    {
+    /**
+     * @var AuthorCollection
+     */
+    private $authors;
+
+    /**
+     * @var ReplaceCollection
+     */
+    private $replaces;
+
+    public function __construct(
+        string $name,
+        string $packageLocation,
+        bool $isFromVendor,
+        ?DependencyCollection $dependencies = null,
+        ?AuthorCollection $authors = null,
+        ?ReplaceCollection $replaces = null
+    ) {
         $this->name = $name;
-        $this->dependencies = $dependencies ?? new DependencyCollection();
         $this->packageLocation = $packageLocation;
         $this->isVendor = $isFromVendor;
+        $this->dependencies = $dependencies ?? new DependencyCollection();
+        $this->authors = $authors ?? new AuthorCollection();
+        $this->replaces = $replaces ?? new ReplaceCollection();
     }
 
     /**
@@ -83,5 +103,15 @@ final class Package implements PackageInterface
     public function hasDependency(string $name): bool
     {
         return $this->dependencies->hasDependencyByName($name);
+    }
+
+    public function getAuthors(): AuthorCollection
+    {
+        return $this->authors;
+    }
+
+    public function getReplaces(): ReplaceCollection
+    {
+        return $this->replaces;
     }
 }
