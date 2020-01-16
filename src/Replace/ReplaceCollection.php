@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Replace;
 
-use Aeviiq\Collection\ObjectCollection;
+use Aeviiq\Collection\ImmutableObjectCollection;
 use ArrayIterator;
 use Closure;
-use Nusje2000\DependencyGraph\Exception\DependencyException;
+use Nusje2000\DependencyGraph\Exception\ReplaceException;
 
 /**
  * @phpstan-extends ImmutableObjectCollection<int|string, ReplaceInterface>
@@ -18,14 +18,14 @@ use Nusje2000\DependencyGraph\Exception\DependencyException;
  * @method ReplaceInterface|null last()
  * @method ReplaceCollection filter(Closure $closure)
  */
-final class ReplaceCollection extends ObjectCollection
+final class ReplaceCollection extends ImmutableObjectCollection
 {
     public function getReplaceByName(string $name): ReplaceInterface
     {
         $replace = $this->filterByName($name)->first();
 
         if (null === $replace) {
-            throw new DependencyException(sprintf('Could not find replaced package %s.', $name));
+            throw ReplaceException::notFound($name);
         }
 
         return $replace;
