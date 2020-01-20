@@ -7,6 +7,9 @@ namespace Nusje2000\DependencyGraph\Cache;
 use Nusje2000\DependencyGraph\DependencyGraph;
 use Nusje2000\DependencyGraph\Exception\CacheException;
 
+/**
+ * @deprecated The cache component is deprecated since 2.3, will be removed in 3.0.
+ */
 interface CacheInterface
 {
     /**

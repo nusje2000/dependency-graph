@@ -32,6 +32,10 @@ final class DependencyGraph
 
     public static function build(string $rootPath, ?GraphBuilderInterface $builder = null, ?CacheInterface $cache = null): self
     {
+        if (null !== $cache) {
+            trigger_error('Passing the third parameter to this function is deprecated since version 2.3, will be removed in 3.0.');
+        }
+
         if (null === $cache) {
             $cache = new NullCache();
         }
