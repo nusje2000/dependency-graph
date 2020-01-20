@@ -82,21 +82,21 @@ final class PackageDefinitionTest extends TestCase
     public function getPackageDefinition(): PackageDefinition
     {
         return PackageDefinition::createFromFile(
-            new SplFileInfo(realpath(__DIR__ . '/../../example-structure/composer.json'), '', 'composer.json')
+            new SplFileInfo((string)realpath(__DIR__ . '/../../example-structure/composer.json'), '', 'composer.json')
         );
     }
 
     public function getMinimalPackageDefinition(): PackageDefinition
     {
         return PackageDefinition::createFromFile(
-            new SplFileInfo(realpath(__DIR__ . '/../../example-structure/src/Package5/composer.json'), '', 'composer.json')
+            new SplFileInfo((string)realpath(__DIR__ . '/../../example-structure/src/Package5/composer.json'), '', 'composer.json')
         );
     }
 
     public function getInvalidPackageDefinition(): PackageDefinition
     {
         return PackageDefinition::createFromFile(
-            new SplFileInfo(realpath(__DIR__ . '/../../example-structure/vendor/invalid/package/composer.json'), '', 'composer.json')
+            new SplFileInfo((string)realpath(__DIR__ . '/../../example-structure/vendor/invalid/package/composer.json'), '', 'composer.json')
         );
     }
 }
