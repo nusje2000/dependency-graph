@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Package;
 
+use Nusje2000\DependencyGraph\Author\AuthorCollection;
 use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
 use Nusje2000\DependencyGraph\Dependency\DependencyInterface;
+use Nusje2000\DependencyGraph\Replace\ReplaceCollection;
 
 interface PackageInterface
 {
@@ -38,4 +40,14 @@ interface PackageInterface
      * Checks if a dependency with the given name exists
      */
     public function hasDependency(string $name): bool;
+
+    /**
+     * Returns the authors of the package
+     */
+    public function getAuthors(): AuthorCollection;
+
+    /**
+     * Returns the packages this package replaces
+     */
+    public function getReplaces(): ReplaceCollection;
 }
