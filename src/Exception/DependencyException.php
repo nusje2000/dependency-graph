@@ -8,8 +8,8 @@ use LogicException;
 
 final class DependencyException extends LogicException implements ExceptionInterface
 {
-    public static function unresolvableDependencyType(string $dependency): self
+    public static function notFound(string $name): self
     {
-        return new static(sprintf('Could not resolve type for dependency named "%s".', $dependency));
+        return new static(sprintf('Could not find dependency %s.', $name));
     }
 }

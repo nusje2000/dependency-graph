@@ -3,6 +3,16 @@
     "require": {
         "foo/foo-package": "2.0.0"
     },
+    "authors": [
+        {
+            "name": "Maarten Nusteling",
+            "email": "maarten.nusteling@gmail.com"
+        },
+        {
+            "name": "Other Nusteling",
+            "email": "other.nusteling@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Nusje2000\\Example\\Package1\\": "src"

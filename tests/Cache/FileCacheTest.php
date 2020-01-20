@@ -9,6 +9,7 @@ use Nusje2000\DependencyGraph\Dependency\Dependency;
 use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
 use Nusje2000\DependencyGraph\Dependency\DependencyTypeEnum;
 use Nusje2000\DependencyGraph\DependencyGraph;
+use Nusje2000\DependencyGraph\Exception\CacheException;
 use Nusje2000\DependencyGraph\Package\Package;
 use Nusje2000\DependencyGraph\Package\PackageCollection;
 use PHPUnit\Framework\TestCase;
@@ -61,6 +62,15 @@ final class FileCacheTest extends TestCase
         self::assertTrue($cache->exists($this->getRootPath()));
         $cache->remove($this->getRootPath());
         self::assertFalse($cache->exists($this->getRootPath()));
+    }
+
+    public function testLoadWithoutCache(): void
+    {
+        $cache = new FileCache();
+        self::assertFalse($cache->exists($this->getRootPath()));
+
+        $this->expectException(CacheException::class);
+        $cache->load($this->getRootPath());
     }
 
     private function getRootPath(): string

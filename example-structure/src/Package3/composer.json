@@ -1,6 +1,11 @@
 {
     "name": "nusje2000/dependency-graph-internal-3",
     "require": {},
+    "authors": [
+        {
+            "name": "Maarten Nusteling"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Nusje2000\\Example\\Package3\\": "src"
