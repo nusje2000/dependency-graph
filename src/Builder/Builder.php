@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nusje2000\DependencyGraph\Builder;
 
+use Nusje2000\DependencyGraph\Author\Author;
+use Nusje2000\DependencyGraph\Author\AuthorCollection;
 use Nusje2000\DependencyGraph\Composer\PackageDefinition;
 use Nusje2000\DependencyGraph\Dependency\Dependency;
 use Nusje2000\DependencyGraph\Dependency\DependencyCollection;
@@ -13,6 +15,8 @@ use Nusje2000\DependencyGraph\Exception\DefinitionException;
 use Nusje2000\DependencyGraph\Package\Package;
 use Nusje2000\DependencyGraph\Package\PackageCollection;
 use Nusje2000\DependencyGraph\Package\PackageInterface;
+use Nusje2000\DependencyGraph\Replace\Replace;
+use Nusje2000\DependencyGraph\Replace\ReplaceCollection;
 use Symfony\Component\Finder\Finder;
 
 final class Builder implements GraphBuilderInterface
@@ -75,10 +79,31 @@ final class Builder implements GraphBuilderInterface
             $dependencies[] = new Dependency($dependencyName, $versionConstraint, true, $type);
         }
 
-        $isFromVendor = 
+        $authors = [];
+        foreach ($definition->getAuthors() as $author) {
+            if (!isset($author['name'])) {
+                continue;
+            }
+
+            $authors[] = new Author($author['name'], $author['email'] ?? null, $author['homepage'] ?? null, $author['role'] ?? null);
+        }
+
+        $replaces = [];
+        foreach ($definition->getReplaces() as $name => $version) {
+            $replaces[] = new Replace($name, $version);
+        }
+
+        $isFromVendor =
             0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'vendor') ||
             0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'node_modules');
 
-        return new Package($definition->getName(), $definition->getPackageDirectory(), $isFromVendor, new DependencyCollection($dependencies));
+        return new Package(
+            $definition->getName(),
+            $definition->getPackageDirectory(),
+            $isFromVendor,
+            new DependencyCollection($dependencies),
+            new AuthorCollection($authors),
+            new ReplaceCollection($replaces)
+        );
     }
 }
