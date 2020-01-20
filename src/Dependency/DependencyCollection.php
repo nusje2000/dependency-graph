@@ -49,7 +49,7 @@ final class DependencyCollection extends ImmutableObjectCollection
         $dependency = $this->filterByName($name)->first();
 
         if (null === $dependency) {
-            throw new DependencyException(sprintf('Could not find dependency %s.', $name));
+            throw DependencyException::notFound($name);
         }
 
         return $dependency;

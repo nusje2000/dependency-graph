@@ -3,6 +3,12 @@
     "require": {
         "bar/bar-package": "1.0.0"
     },
+    "authors": [
+        {
+            "name": "Maarten Nusteling",
+            "homepage": "https://github.com/nusje2000"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Nusje2000\\Example\\Package2\\": "src"

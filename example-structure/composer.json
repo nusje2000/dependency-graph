@@ -5,6 +5,24 @@
         "foo/foo-package": "2.0.0",
         "bar/bar-package": "1.0.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "authors": [
+        {
+            "name": "Maarten Nusteling",
+            "email": "maarten.nusteling@gmail.com",
+            "role": "maintainer",
+            "homepage": "https://github.com/nusje2000"
+        }
+    ],
+    "replace": {
+        "nusje2000/dependency-graph-internal-1": "self.version",
+        "nusje2000/dependency-graph-internal-2": "self.version",
+        "nusje2000/dependency-graph-internal-3": "self.version",
+        "nusje2000/dependency-graph-internal-4": "self.version",
+        "nusje2000/dependency-graph-internal-5": "self.version"
+    },
     "autoload": {
         "psr-4": {
             "Nusje2000\\Example\\": "src"
