@@ -17,7 +17,7 @@
             "vendor/bin/phpstan analyze ./src ./tests --level max"
         ],
         "phpunit": [
-            "vendor/bin/phpunit ./tests"
+            "vendor/bin/phpunit"
         ]
     },
     "require": {
