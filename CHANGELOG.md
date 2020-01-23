@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2.3.0
+ - Added support for replaces on packages using PackageInterface::getReplaces
+ - Added support for authors on packages using PackageInterface::getAuthors
+ - Deprecated the cache component
+ - Deprecated mutating functions on PackageDefinition
+
+## 2.2.1
+ - Added node_modules as vendor directory
+
 ## 2.2.0
  - added getReplaces function
  - added setReplace function
