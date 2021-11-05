@@ -40,6 +40,7 @@ final class Builder implements GraphBuilderInterface
     private function getComposerDefinitions(string $rootPath): array
     {
         $finder = Finder::create();
+        $finder->sortByName();
         $finder->in($rootPath);
         $finder->ignoreUnreadableDirs();
         $finder->name('composer.json');
