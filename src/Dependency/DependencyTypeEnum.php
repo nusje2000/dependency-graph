@@ -6,6 +6,9 @@ namespace Nusje2000\DependencyGraph\Dependency;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * @extends Enum<string>
+ */
 final class DependencyTypeEnum extends Enum
 {
     public const PACKAGE = 'package';
