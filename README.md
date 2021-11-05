@@ -1,4 +1,7 @@
 # Dependency graph
+
+[![Build](https://github.com/nusje2000/dependency-graph/actions/workflows/build.yml/badge.svg)](https://github.com/nusje2000/dependency-graph/actions/workflows/build.yml)
+
 This package can be used to create a list of used packages and their
 dependencies.
 
