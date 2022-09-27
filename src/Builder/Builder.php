@@ -94,9 +94,11 @@ final class Builder implements GraphBuilderInterface
             $replaces[] = new Replace($name, $version);
         }
 
+        $path = str_replace($rootPath, '', $definition->getPackageDirectory());
+
         $isFromVendor =
-            0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'vendor') ||
-            0 === strpos($definition->getPackageDirectory(), $rootPath . DIRECTORY_SEPARATOR . 'node_modules');
+            false !== strpos($path, DIRECTORY_SEPARATOR . 'vendor') ||
+            false !== strpos($path, DIRECTORY_SEPARATOR . 'node_modules');
 
         return new Package(
             $definition->getName(),
