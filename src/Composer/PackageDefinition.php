@@ -31,6 +31,7 @@ final class PackageDefinition
     public static function createFromFile(SplFileInfo $file): self
     {
         $definition = json_decode($file->getContents(), true);
+        assert(is_array($definition));
 
         return new PackageDefinition($definition, $file->getPath());
     }
@@ -56,7 +57,10 @@ final class PackageDefinition
      */
     public function getAuthors(): array
     {
-        return $this->definition['authors'] ?? [];
+        $authors = $this->definition['authors'] ?? [];
+        assert(is_array($authors));
+
+        return $authors;
     }
 
     /**
@@ -64,7 +68,10 @@ final class PackageDefinition
      */
     public function getDependencies(): array
     {
-        return $this->definition['require'] ?? [];
+        $dependencies = $this->definition['require'] ?? [];
+        assert(is_array($dependencies));
+
+        return $dependencies;
     }
 
     /**
@@ -72,7 +79,10 @@ final class PackageDefinition
      */
     public function getDevDependencies(): array
     {
-        return $this->definition['require-dev'] ?? [];
+        $dependencies = $this->definition['require-dev'] ?? [];
+        assert(is_array($dependencies));
+
+        return $dependencies;
     }
 
     /**
@@ -80,6 +90,9 @@ final class PackageDefinition
      */
     public function getReplaces(): array
     {
-        return $this->definition['replace'] ?? [];
+        $replace = $this->definition['replace'] ?? [];
+        assert(is_array($replace));
+
+        return $replace;
     }
 }

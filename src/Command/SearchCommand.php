@@ -38,6 +38,7 @@ final class SearchCommand extends AbstractDependencyGraphCommand
     private function searchForPackage(): PackageInterface
     {
         $searchedPackage = $this->io->ask('What package do you want to lookup ? (TIP: you could also enter a part of a package name)');
+        assert(is_string($searchedPackage));
         $suggestedPackages = $this->suggestPackages((string)$searchedPackage);
 
         if ($suggestedPackages->isEmpty()) {
@@ -59,6 +60,7 @@ final class SearchCommand extends AbstractDependencyGraphCommand
         ));
 
         $choice = $this->io->choice('What package would you like to view ?', $options);
+        assert(is_string($choice));
 
         if (null !== $choice && 'Search again' !== $choice) {
             return $this->graph->getPackage($choice);
