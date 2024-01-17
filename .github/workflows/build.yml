@@ -8,10 +8,10 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+                php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1', '8.2' ]
         steps:
             -   name: Setup PHP, with composer and extensions
-                uses: shivammathur/setup-php@v1
+                uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php-versions }}
 
