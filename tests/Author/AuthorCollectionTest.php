@@ -7,7 +7,7 @@ namespace Nusje2000\DependencyGraph\Tests\Author;
 use Nusje2000\DependencyGraph\Author\Author;
 use Nusje2000\DependencyGraph\Author\AuthorCollection;
 use Nusje2000\DependencyGraph\Exception\AuthorException;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class AuthorCollectionTest extends TestCase
 {

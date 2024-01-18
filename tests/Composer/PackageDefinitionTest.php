@@ -6,7 +6,7 @@ namespace Nusje2000\DependencyGraph\Tests\Composer;
 
 use Nusje2000\DependencyGraph\Composer\PackageDefinition;
 use Nusje2000\DependencyGraph\Exception\DefinitionException;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class PackageDefinitionTest extends TestCase

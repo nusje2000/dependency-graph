@@ -7,7 +7,7 @@ namespace Nusje2000\DependencyGraph\Tests\Replace;
 use Nusje2000\DependencyGraph\Exception\ReplaceException;
 use Nusje2000\DependencyGraph\Replace\Replace;
 use Nusje2000\DependencyGraph\Replace\ReplaceCollection;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class ReplaceCollectionTest extends TestCase
 {
